@@ -1,0 +1,40 @@
+
+body {
+    color: blue;
+    background: url("images/Paraiso01.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 40px;
+    background-color: lightblue;
+}
+
+sinfondo {
+    color: black;
+    background-image: none;
+    padding-top: 40px;
+    text-align: left;
+}
+
+h1 {
+    color: purple;
+    text-align: left;
+}
+
+h3 {
+    color: blue;
+    text-align: center;
+}
+
+section {
+    color: blue;
+    text-align: left;
+}
+header {
+    color: blue;
+    text-align: center;
+}
+
+p {
+    font-family: verdana;
+    font-size: 20px;
+}

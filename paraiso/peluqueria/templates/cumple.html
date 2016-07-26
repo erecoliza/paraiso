@@ -1,0 +1,34 @@
+
+<!DOCTYPE html>
+<html>
+
+<body background-image= None>
+<sinfondo>
+<div>
+  <h2><a href="/menu"> Menu </a></h2>
+  <h3 align =center>Peluquería Paraíso de Amor</h3>
+  <h3 align =center>Listado de cumpleaños</h3>
+</div>
+{% if cumple_list %}
+    <table border="1px" align =center>
+    <tr>
+     <th scope="col">Apellido y Nombre</th>
+     <th scope="col">Correo Electrónico</th>
+     <th scope="col">Teléfono</th>
+     <th scope="col">Cumpleaños</th>
+    </tr>
+        {% for cumple in cumple_list %}
+        <tr>
+            <td>{{ cumple.Apellido }}, {{ cumple.Nombre }}</td>
+            <td align="center">{{ cumple.email }}</td>
+            <td align="center">{{ cumple.Teléfono }}</td>
+            <td align="center">{{cumple.Cumpleaños|date:"d-M "}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+   <p>No hay cumpleaños</p>
+{% endif %}
+</sinfondo>
+</body>
+</html>

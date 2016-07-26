@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'peluqueria/main.css' %}" />
+</head>
+<body>
+<section>
+    <h1>Login Normal </h1>
+    <form method="post" action="">{% csrf_token %}
+        <label for="user">User</label>
+        <input type="text" name="username" placeholder="user"><br>
+        <label for="pass">Password</label>
+        <input type="password" name="password" placeholder="pass"><br>
+        <input type="submit" value="Iniciar">
+    </form>
+</section>
+</body>
+</html>
