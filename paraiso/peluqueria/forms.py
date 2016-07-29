@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Post
+from peluqueria.models import Cliente
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -11,5 +11,4 @@ class PostForm(forms.ModelForm):
         'email',
         'Teléfono',
         'Tratamiento',
-        'fecha'
         )
