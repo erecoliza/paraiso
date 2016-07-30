@@ -1,12 +1,7 @@
-
-<!DOCTYPE html>
-<html>
-
-<body background-image= None>
-<sinfondo>
+{% extends "base.html" %}
+<div id="Inferior">
+{% block content %}
 <div>
-  <h2><a href="/menu"> Menu </a></h2>
-  <h3 align =center>Peluquería Paraíso de Amor</h3>
   <h3 align =center>Listado de cumpleaños</h3>
 </div>
 {% if cumple_list %}
@@ -20,8 +15,8 @@
         {% for cumple in cumple_list %}
         <tr>
             <td>{{ cumple.Apellido }}, {{ cumple.Nombre }}</td>
-            <td align="center">{{ cumple.email }}</td>
-            <td align="center">{{ cumple.Teléfono }}</td>
+            <td align="center"><address>{{ cumple.email }}</address></td>
+            <td align="center"><address>{{ cumple.Teléfono }}</address></td>
             <td align="center">{{cumple.Cumpleaños|date:"d-M "}}</td>
         </tr>
         {% endfor %}
@@ -29,6 +24,5 @@
 {% else %}
    <p>No hay cumpleaños</p>
 {% endif %}
-</sinfondo>
-</body>
-</html>
+{% endblock %}
+</div>

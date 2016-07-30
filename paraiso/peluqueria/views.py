@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 import datetime
 from datetime import date
@@ -17,18 +18,23 @@ class Index(TemplateView):
 class Menu(LoginRequiredMixin, TemplateView):
     template_name = "menu.html"
 
-def Cliente_new(request):
-        form = PostForm(request.POST)
-        if request.method == "POST":
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.save()
-                return redirect('/cumple')
-        else:
-           return render(request, 'cliente_new.html', {'form': form})
+class Cliente_new(LoginRequiredMixin, FormView):
+    form_class = PostForm
+    template_name = "cliente_new.html"
+    success_url = "/cumple"
 
+class ClienteCreate(LoginRequiredMixin,CreateView):
+    model = Cliente
+    fields = ['Apellido',
+    'Nombre',
+    'Cumpleaños',
+    'email',
+    'Teléfono',
+    'Tratamiento',]
+    template_name = "cliente_new.html"
+    success_url = "/cumple"
 
-class Cumple(ListView):
+class Cumple(LoginRequiredMixin,ListView):
     def get_queryset(self):
         #return Cliente.cumplen_este_mes.all()
         return Cliente.objects.all().order_by('Apellido')

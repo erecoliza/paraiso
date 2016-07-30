@@ -1,10 +1,12 @@
+{% extends "base.html" %}
+<div id="Inferior">
     {% block content %}
-    {% load staticfiles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'peluqueria/main.css' %}" />
-    <h2><a href="/menu"> Menu </a></h2>
-        <h1>Nuevo Cliente</h1>
-        <form method="POST" class="post-form">{% csrf_token %}
+          <h1>Cliente nuevo </h1>
+          <form method="POST" class="post-form">{% csrf_token %}
+          <body>
             {{ form.as_p }}
             <button type="submit" class="save btn btn-default">Guardar</button>
+        </body>
         </form>
     {% endblock %}
+</div>

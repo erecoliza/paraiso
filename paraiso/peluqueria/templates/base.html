@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'peluqueria/main.css' %}" />
+    <title>{% block title %}Paraiso de Amor{% endblock %}</title>
+</head>
+<div id="Superior">
+  <p>
+  <a href="/menu">
+  <img src="{% static 'peluqueria/images/Paraiso01.jpg' %}" alt="Peluqueria" style="float:left;width:150px;height:65px;">
+  </a>
+  </p>
+    <div class="navigation">
+    <table>
+            <tr>
+                <td><a href="/admin"> Administrador de datos</a></td>
+                <td>&nbsp;</td>
+                <td><a href="/cliente_add"> Agregar Cliente</a></td>
+                <td>&nbsp;</td>
+                <td><a href="/cliente_new"> Agregar Cliente(2)</td>
+                <td>&nbsp;</td>
+                <td><a href="/cumple"> Listar cumpleaños</a></td>
+                <td>&nbsp;</td>
+                <td><a href="/cerrar"> Cerrar Sesion</a></td>
+            </tr>
+        </table>
+    </div>
+    <h5>Bienvenido: <strong>{{user.username|capfirst}}</strong></h5>
+<hr>
+</div>
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</html>
