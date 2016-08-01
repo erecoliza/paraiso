@@ -20,3 +20,6 @@ class Cliente(models.Model):
 
     def __str__(self):              # __unicode__ on Python 2
         return '%s %s' % (self.Apellido, self.Nombre)
+
+    def get_absolute_url(self):
+        return reverse('cliente-detail', kwargs={'pk': self.pk})    

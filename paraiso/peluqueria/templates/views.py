@@ -43,7 +43,7 @@ def Cliente_buscar(request):
 class Cliente_list(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Cliente.objects.all().order_by('Apellido')
-    template_name = 'cliente_list.html'
+    template_name = 'cliente.html'
     context_object_name = 'cliente_list'
 
 class ClienteCreate(LoginRequiredMixin,CreateView):
@@ -66,12 +66,11 @@ class ClienteUpdate(LoginRequiredMixin, UpdateView):
     'Teléfono',
     'Tratamiento',]
     template_name_suffix = '_update_form'
-    success_url = "/clientes"
+    success_url = "/cumple"
 
 class ClienteDelete(LoginRequiredMixin, DeleteView):
     model = Cliente
-    #success_url = reverse_lazy('/clientes')
-    success_url = "/clientes"
+    success_url = reverse_lazy('cliente_list')
 
 class Cumple(LoginRequiredMixin,ListView):
     def get_queryset(self):
