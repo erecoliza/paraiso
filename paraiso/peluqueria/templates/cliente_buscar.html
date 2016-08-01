@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+<div id="Inferior">
+    {% block content %}
+          <h1>Buscar Cliente</h1>
+            <form method="GET" class="GET-form">{% csrf_token %}
+          <body>
+            <input type=”text” name=”q”>
+            {{ form.as_p }}
+          <button type="submit" class="save btn btn-default">Buscar</button>
+        </body>
+        </form>
+    {% endblock %}
+</div>

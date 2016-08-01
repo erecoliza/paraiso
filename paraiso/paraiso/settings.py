@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # django-simple-menu
+    'menu',
+     # local apps
+    # Sistema de peluqueria
     'peluqueria',
 ]
 
@@ -63,6 +67,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                "django.core.context_processors.request",
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -128,3 +133,6 @@ from django.core.urlresolvers import reverse_lazy
 LOGIN_URL = reverse_lazy('login')
 LOGIN_REDIRECT_URL = reverse_lazy('menu')
 LOGOUT_URL = reverse_lazy('logout')
+
+MENU_SELECT_PARENTS = False
+MENU_HIDE_EMPTY = False

@@ -6,7 +6,6 @@ class CumplenEsteMes(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(Cumpleaños__month=today().month)
 
-
 class Cliente(models.Model):
     objects = models.Manager()
     cumplen_este_mes = CumplenEsteMes()

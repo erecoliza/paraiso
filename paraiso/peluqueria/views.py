@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, FormView
+from django.views.generic import TemplateView, ListView, FormView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.db.models import Q
+from django.shortcuts import render_to_response
 
 import datetime
 from datetime import date
@@ -18,10 +20,29 @@ class Index(TemplateView):
 class Menu(LoginRequiredMixin, TemplateView):
     template_name = "menu.html"
 
-class Cliente_new(LoginRequiredMixin, FormView):
-    form_class = PostForm
-    template_name = "cliente_new.html"
-    success_url = "/cumple"
+#class Cliente_buscar(LoginRequiredMixin, CreateView):
+def Cliente_buscar(request):
+    model = Cliente
+    fields = ['Apellido']
+    return render_to_response('cliente_buscar.html')
+
+    model = Cliente
+    fields = ['Apellido']
+    template_name = "cliente_buscar.html"
+    success_url = "/clientes"
+
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        clientes = Clientes.objects.filter(Apellido__icontains=q)
+        return render_to_response('cliente.html', {'clientes': clientes, 'query': q})
+    else:
+        return HttpResponse('Ingrese un apellido a buscar.')
+
+class Cliente_list(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        return Cliente.objects.all().order_by('Apellido')
+    template_name = 'cliente.html'
+    context_object_name = 'cliente_list'
 
 class ClienteCreate(LoginRequiredMixin,CreateView):
     model = Cliente
