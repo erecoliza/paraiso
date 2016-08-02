@@ -26,10 +26,6 @@ class Menu(LoginRequiredMixin, TemplateView):
 def Cliente_buscar(request):
     model = Cliente
     fields = ['Apellido']
-    return render_to_response('cliente_buscar.html')
-
-    model = Cliente
-    fields = ['Apellido']
     template_name = "cliente_buscar.html"
     success_url = "/clientes"
 
@@ -45,6 +41,7 @@ class Cliente_list(LoginRequiredMixin, ListView):
         return Cliente.objects.all().order_by('Apellido')
     template_name = 'cliente_list.html'
     context_object_name = 'cliente_list'
+    #paginate_by = 10
 
 class ClienteCreate(LoginRequiredMixin,CreateView):
     model = Cliente
@@ -55,7 +52,7 @@ class ClienteCreate(LoginRequiredMixin,CreateView):
     'Teléfono',
     'Tratamiento',]
     template_name = "cliente_new.html"
-    success_url = "/cumple"
+    success_url = "/clientes"
 
 class ClienteUpdate(LoginRequiredMixin, UpdateView):
     model = Cliente
