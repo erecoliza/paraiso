@@ -3,10 +3,9 @@ from django.views.generic import TemplateView, ListView, FormView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy
+from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.shortcuts import render_to_response
-
 
 import datetime
 from datetime import date
@@ -22,22 +21,21 @@ class Index(TemplateView):
 class Menu(LoginRequiredMixin, TemplateView):
     template_name = "menu.html"
 
-#class Cliente_buscar(LoginRequiredMixin, CreateView):
-def Cliente_buscar(request):
-    model = Cliente
-    fields = ['Apellido']
-    template_name = "cliente_buscar.html"
-    success_url = "/clientes"
+def Cliente_form(request):
+    return render_to_response('cliente_buscar.html')
 
+def Cliente_buscar(request):
     if 'q' in request.GET and request.GET['q']:
         q = request.GET['q']
-        clientes = Clientes.objects.filter(Apellido__icontains=q)
-        return render_to_response('cliente.html', {'clientes': clientes, 'query': q})
-    else:
-        return HttpResponse('Ingrese un apellido a buscar.')
+        return redirect(reverse('clientes') + '?q='  + q)
+    return render_to_response('cliente_buscar.html')
 
 class Cliente_list(LoginRequiredMixin, ListView):
     def get_queryset(self):
+        request = self.request
+        q = request.GET.get('q')
+        if q:
+           return Cliente.objects.filter(Apellido__icontains=q).order_by('Apellido')
         return Cliente.objects.all().order_by('Apellido')
     template_name = 'cliente_list.html'
     context_object_name = 'cliente_list'

@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # django-simple-menu
-    'menu',
-     # local apps
+    #'menu',
+    # local apps
     # Sistema de peluqueria
     'peluqueria',
 ]
