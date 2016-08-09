@@ -6,6 +6,7 @@ Cliente_list,
 ClienteCreate,
 ClienteUpdate,
 ClienteDelete,
+CumpleAExcel,
 Cumple)
 
 from . import views
@@ -20,6 +21,7 @@ url(r'^$', 'django.contrib.auth.views.login',
  url(r'cliente/(?P<pk>[0-9]+)/$', ClienteUpdate.as_view(), name='cliente-update'),
  url(r'cliente/(?P<pk>[0-9]+)/delete/$', ClienteDelete.as_view(), name='cliente-delete'),
  url(r'^cumple/$',Cumple.as_view(), name="cumple"),
+ url(r'^cumple_a_excel/$', views.CumpleAExcel, name="cumple_a_excel"),
  url(r'^admin/', admin.site.urls),
  url(r'^cerrar/$', 'django.contrib.auth.views.logout_then_login',
     name='logout'),

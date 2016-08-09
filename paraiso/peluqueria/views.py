@@ -65,7 +65,6 @@ class ClienteUpdate(LoginRequiredMixin, UpdateView):
 
 class ClienteDelete(LoginRequiredMixin, DeleteView):
     model = Cliente
-    #success_url = reverse_lazy('/clientes')
     success_url = "/clientes"
 
 class Cumple(LoginRequiredMixin,ListView):
@@ -74,3 +73,11 @@ class Cumple(LoginRequiredMixin,ListView):
         return Cliente.objects.all().order_by('Apellido')
     template_name = "cumple.html"
     context_object_name = 'cumple_list'
+
+def CumpleAExcel(request):
+    if 'mes' in request.GET and request.GET['mes']:
+        q = request.GET['mes']
+        cumple_mes = Cliente.objects.all().filter(Cumpleaños__month=q)
+        return render(request, 'cumple.html' , {'cumple_list':cumple_mes})
+    else:
+        return render_to_response('cumple_a_excel.html')
