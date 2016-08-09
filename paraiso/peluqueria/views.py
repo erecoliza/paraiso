@@ -6,6 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
 
 import datetime
 from datetime import date
@@ -21,9 +22,11 @@ class Index(TemplateView):
 class Menu(LoginRequiredMixin, TemplateView):
     template_name = "menu.html"
 
+@login_required
 def Cliente_form(request):
     return render_to_response('cliente_buscar.html')
 
+@login_required
 def Cliente_buscar(request):
     if 'q' in request.GET and request.GET['q']:
         q = request.GET['q']
@@ -74,6 +77,7 @@ class Cumple(LoginRequiredMixin,ListView):
     template_name = "cumple.html"
     context_object_name = 'cumple_list'
 
+@login_required
 def CumpleAExcel(request):
     if 'mes' in request.GET and request.GET['mes']:
         q = request.GET['mes']
