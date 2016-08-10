@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
+from .utils import ArmoExcel
 
 import datetime
 from datetime import date
@@ -82,6 +83,9 @@ def CumpleAExcel(request):
     if 'mes' in request.GET and request.GET['mes']:
         q = request.GET['mes']
         cumple_mes = Cliente.objects.all().filter(Cumpleaños__month=q)
-        return render(request, 'cumple.html' , {'cumple_list':cumple_mes})
+        exportar = ArmoExcel(cumple_mes)
+        response = HttpResponse(exportar, content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'filename = "cumple_mes.xlsx"'
+        return response
     else:
         return render_to_response('cumple_a_excel.html')
