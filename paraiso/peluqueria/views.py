@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, FormView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -6,14 +7,13 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
-from .utils import ArmoExcel
+from django.template import RequestContext
+from .utils import ArmoExcel, ImportarExcel
+from django import forms
+from .forms import PostForm
 
 import datetime
 from datetime import date
-
-from django import forms
-from .forms import PostForm
 
 from peluqueria.models import Cliente
 
@@ -89,3 +89,22 @@ def CumpleAExcel(request):
         return response
     else:
         return render_to_response('cumple_a_excel.html')
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+def import_data(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST,
+                              request.FILES)
+        if form.is_valid():
+            archivo = request.FILES['file']
+            importar = ImportarExcel(archivo)
+            return redirect(reverse('clientes'))
+        else:
+            return HttpResponseBadRequest()
+    else:
+        form = UploadFileForm()
+    return render_to_response('upload_form.html',
+                              {'form':form},
+                              context_instance=RequestContext(request))

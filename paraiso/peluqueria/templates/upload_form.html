@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+<div id="Inferior">
+{% block content %}
+<div>
+  <h3 align =center>Alta masiva desde Excel</h3>
+</div>
+<body>
+    <form action="" enctype="multipart/form-data" method="post">
+      <table>
+        {{form.as_table}}
+      </table>
+      {% csrf_token %}
+      <input type="submit" value="Submit">
+    </form>
+</body>
+{% endblock %}
+</div>

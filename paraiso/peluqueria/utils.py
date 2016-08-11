@@ -1,7 +1,9 @@
 import openpyxl
 from openpyxl.styles import Font
-from openpyxl import Workbook
+from openpyxl import Workbook, load_workbook
 from openpyxl.writer.excel import save_virtual_workbook
+
+from peluqueria.models import Cliente
 
 def ArmoExcel(cumple_mes):
     wb = openpyxl.Workbook()
@@ -35,5 +37,34 @@ def ArmoExcel(cumple_mes):
          sheet['C'+ str(i)].value = cumple.Teléfono
          sheet['D'+ str(i)].value = cumple.Cumpleaños.strftime("%d-%m")
 
-    #wb.save('cumple_mes.xlsx')
     return save_virtual_workbook(wb)
+
+def ImportarExcel(archivo):
+    model = Cliente
+    wb = load_workbook(filename = archivo, use_iterators=True)
+    hoja = wb.get_sheet_names()[0]
+    worksheet = wb.get_sheet_by_name(hoja)
+
+    sheet = wb.active
+
+    i = 1
+    while True:
+        i = i + 1
+        if sheet['A'+ str(i)].value is None:
+            break
+        else:
+            p = Cliente(
+                Apellido = sheet['A'+ str(i)].value,
+                Nombre = ("" if sheet['B'+ str(i)].value is None
+                               else sheet['B'+ str(i)].value),
+                Cumpleaños = (None if sheet['C'+ str(i)].value is None
+                               else sheet['C'+ str(i)].value),
+                email = ("" if sheet['D'+ str(i)].value is None
+                               else sheet['D'+ str(i)].value),
+                Teléfono = ("" if sheet['E'+ str(i)].value is None
+                               else sheet['E'+ str(i)].value),
+                Tratamiento = ("" if sheet['F'+ str(i)].value is None
+                               else sheet['F'+ str(i)].value),
+                fecha = sheet['G'+ str(i)].value
+                )
+            p.save()
