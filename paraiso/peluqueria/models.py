@@ -23,5 +23,3 @@ class Cliente(models.Model):
 
     def get_absolute_url(self):
         return reverse('cliente-detail', kwargs={'pk': self.pk})
-
- 

@@ -15,16 +15,30 @@
       <ul>
         <li><a class="active" href="/menu">Home</a></li>
         <li class="dropdown">
-          <a href="javascript:void(0)" class="dropbtn" onclick="myFunction()">Clientes</a>
-          <div class="dropdown-content" id="myDropdown">
-            <a href="/clientes">Todos los Clientes</a>
-            <a href="/cliente_buscar#">Buscar Cliente</a>
-            <a href="/cumple">Listar cumpleños</a>
-            <a href="/cumple_a_excel">Exportar cumpleños a Excel</a>
-            <a href="/import_excel">Importar Clientes desde Excel</a>
-          </div>
+            <a href="javascript:void(0)" class="dropbtn" onclick="clientesFunction()">Clientes</a>
+            <div class="dropdown-content" id="clientesDropdown">
+                <a href="/clientes">Todos los Clientes</a>
+                <a href="/cliente_buscar#">Buscar Cliente</a>
+                <a href="/import_excel">Importar Clientes desde Excel</a>
+            </div>
         </li>
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn" onclick="contableFunction()">Contable</a>
+            <div class="dropdown-content" id="contableDropdown">
+                <a href="">Asientos</a>
+                <a href="">Mayor</a>
+                <a href="">Sumas y Saldos</a>
+            </div>
+          </li>
+          <li class="dropdown">
+              <a href="javascript:void(0)" class="dropbtn" onclick="informesFunction()">Informes</a>
+              <div class="dropdown-content" id="informesDropdown">
+                  <a href="/cumple">Listar cumpleños</a>
+                  <a href="/cumple_a_excel">Exportar cumpleños a Excel</a>
+              </div>
+          </li>
          <li><a href="/cerrar">Cerrar Sesion</a></li>
+
          <!--
          <li><a href="/admin">Administrador de datos</a></li>
          -->
@@ -41,14 +55,18 @@
     <script>
     /* When the user clicks on the button,
     toggle between hiding and showing the dropdown content */
-    function myFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
+    function clientesFunction() {
+        document.getElementById("clientesDropdown").classList.toggle("show");
     }
-
+    function contableFunction() {
+        document.getElementById("contableDropdown").classList.toggle("show");
+    }
+    function informesFunction() {
+        document.getElementById("informesDropdown").classList.toggle("show");
+    }
     // Close the dropdown if the user clicks outside of it
     window.onclick = function(e) {
       if (!e.target.matches('.dropbtn')) {
-
         var dropdowns = document.getElementsByClassName("dropdown-content");
         for (var d = 0; d < dropdowns.length; d++) {
           var openDropdown = dropdowns[d];
@@ -59,5 +77,4 @@
       }
     }
     </script>
-
 </html>
