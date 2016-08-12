@@ -6,10 +6,11 @@ Cliente_list,
 ClienteCreate,
 ClienteUpdate,
 ClienteDelete,
+Cumple,
 CumpleAExcel,
-UploadFileForm,
-import_data,
-Cumple,)
+ImportData,
+Mapa,
+UploadFileForm,)
 
 from . import views
 
@@ -24,7 +25,8 @@ url(r'^$', 'django.contrib.auth.views.login',
  url(r'cliente/(?P<pk>[0-9]+)/delete/$', ClienteDelete.as_view(), name='cliente-delete'),
  url(r'^cumple/$',Cumple.as_view(), name="cumple"),
  url(r'^cumple_a_excel/$', views.CumpleAExcel, name="cumple_a_excel"),
- url(r'^import_excel/$', views.import_data, name="import_data"),
+ url(r'^import_excel/$', views.ImportData, name="import_data"),
+ url(r'^mapa/$', Mapa.as_view(), name="mapa"),
  url(r'^admin/', admin.site.urls),
  url(r'^cerrar/$', 'django.contrib.auth.views.logout_then_login',
     name='logout'),

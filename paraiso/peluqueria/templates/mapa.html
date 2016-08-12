@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+<div id="Inferior">
+  {% load staticfiles %}
+  {% block content%}
+  <div align="center" class="container">
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3&libraries=places"></script>
+    <div id="map" style="width:700px;height:500px"></div>
+
+    <script>
+    var mapCanvas = document.getElementById("map");
+    var mapOptions = {
+        center: new google.maps.LatLng(-36.658978, -56.682231), zoom: 20
+    }
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+    var infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+
+    service.getDetails({
+    placeId: 'ChIJPUr_YZpunJUR1TEF4cj7-1E'
+    }, function(place, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+      var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+      });
+      google.maps.event.addListener(marker, 'click', function() {
+              infowindow.setContent("<b>" + place.name + "</b>" + "<br>" +
+                                    place.adr_address + "<br>" +
+                                    place.formatted_phone_number + "<br>" +
+                                    place.website);
+              infowindow.open(map, this);
+            });
+          }
+        });
+
+
+    </script>
+  </div>
+
+  {% endblock %}

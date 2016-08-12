@@ -93,7 +93,8 @@ def CumpleAExcel(request):
 class UploadFileForm(forms.Form):
     file = forms.FileField()
 
-def import_data(request):
+@login_required
+def ImportData(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST,
                               request.FILES)
@@ -108,3 +109,6 @@ def import_data(request):
     return render_to_response('upload_form.html',
                               {'form':form},
                               context_instance=RequestContext(request))
+
+class Mapa(LoginRequiredMixin, TemplateView):
+    template_name = "mapa.html"
