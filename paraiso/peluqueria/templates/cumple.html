@@ -21,6 +21,9 @@
         </tr>
         {% endfor %}
     </table>
+    {% if is_paginated %}
+        {% include "paginator.html" %}
+    {% endif %}
 {% else %}
    <p>No hay cumpleaños</p>
 {% endif %}

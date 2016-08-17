@@ -10,6 +10,10 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from .utils import ArmoExcel, ImportarExcel
 from django import forms
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
+
 from .forms import PostForm
 
 import datetime
@@ -43,7 +47,7 @@ class Cliente_list(LoginRequiredMixin, ListView):
         return Cliente.objects.all().order_by('Apellido')
     template_name = 'cliente_list.html'
     context_object_name = 'cliente_list'
-    #paginate_by = 10
+    paginate_by = 10
 
 class ClienteCreate(LoginRequiredMixin,CreateView):
     model = Cliente
@@ -77,6 +81,7 @@ class Cumple(LoginRequiredMixin,ListView):
         return Cliente.objects.all().order_by('Apellido')
     template_name = "cumple.html"
     context_object_name = 'cumple_list'
+    paginate_by = 20
 
 @login_required
 def CumpleAExcel(request):
