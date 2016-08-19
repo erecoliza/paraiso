@@ -12,7 +12,7 @@ class Cliente(models.Model):
 
     Apellido = models.CharField(max_length=200)
     Nombre = models.CharField(max_length=200)
-    Cumpleaños = models.DateField('Fecha de cumpleaños', blank=True)
+    Cumpleaños = models.DateField('Fecha de cumpleaños', null=True, blank=True)
     email=models.CharField(max_length=200, blank=True)
     Teléfono=models.CharField(max_length=200, blank=True)
     Tratamiento=models.CharField(max_length=200)
@@ -23,3 +23,25 @@ class Cliente(models.Model):
 
     def get_absolute_url(self):
         return reverse('cliente-detail', kwargs={'pk': self.pk})
+
+class TipoTarjeta(models.Model):
+    tipo_tarjeta = models.CharField(max_length=50)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return '%s' % (self.tipo_tarjeta)
+
+    class meta:
+        ordering = ['tipo_tarjeta']
+
+class Tarjeta(models.Model):
+    fecha_operacion = models.DateField('Fecha de Operación', default=date.today)
+    tipo_tarjeta = models.ForeignKey(TipoTarjeta, on_delete = models.CASCADE)
+    importe = models.DecimalField(max_digits=12, decimal_places=2)
+    lote = models.IntegerField()
+    fecha_pago = models.DateField('Fecha de pago', null=True, blank=True)
+
+    def __str__(self):              # __unicode__ on Python 2
+        return '%s, %s, %s, %s, %s' % (self.fecha_operacion, self.tipo_tarjeta, self.importe, self.lote, self.fecha_pago)
+
+    class meta:
+        ordering = ['tipo_tarjeta', 'fecha_operacion']

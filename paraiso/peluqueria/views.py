@@ -14,12 +14,12 @@ from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 
-from .forms import PostForm
+from .forms import PostForm, TipoTarjetaForm, TarjetaForm
 
 import datetime
 from datetime import date
 
-from peluqueria.models import Cliente
+from peluqueria.models import (Cliente, Tarjeta, TipoTarjeta)
 
 class Index(TemplateView):
     template_name = 'inicio.html'
@@ -117,3 +117,65 @@ def ImportData(request):
 
 class Mapa(LoginRequiredMixin, TemplateView):
     template_name = "mapa.html"
+
+class TipoTarjeta_list(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        request = self.request
+        q = request.GET.get('q')
+        if q:
+           return TipoTarjeta.objects.filter(tipo_tarjeta__icontains=q).order_by('tipo_tarjeta')
+        return TipoTarjeta.objects.all().order_by('tipo_tarjeta')
+    template_name = 'tipotarjeta_list.html'
+    context_object_name = 'tipotarjeta_list'
+    paginate_by = 10
+
+class TipoTarjetaCreate(LoginRequiredMixin,CreateView):
+    model = TipoTarjeta
+    fields = ['tipo_tarjeta',]
+    template_name = "tipotarjeta_new.html"
+    success_url = "/tipotarjeta"
+
+class TipoTarjetaUpdate(LoginRequiredMixin, UpdateView):
+    model = TipoTarjeta
+    fields = ['tipo_tarjeta',]
+    template_name_suffix = '_update_form'
+    success_url = "/tipotarjeta"
+
+class TipoTarjetaDelete(LoginRequiredMixin, DeleteView):
+    model = TipoTarjeta
+    success_url = "/tipotarjeta"
+
+class Tarjeta_list(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        request = self.request
+        q = request.GET.get('q')
+        if q:
+           return TipoTarjeta.objects.filter(tipo_tarjeta__icontains=q).order_by('tipo_tarjeta')
+        return Tarjeta.objects.all().order_by('-fecha_operacion')
+    template_name = 'tarjeta_list.html'
+    context_object_name = 'tarjeta_list'
+    paginate_by = 10
+
+class TarjetaCreate(LoginRequiredMixin,CreateView):
+    model = Tarjeta
+    fields = ['fecha_operacion',
+    'tipo_tarjeta',
+    'importe',
+    'lote',
+    'fecha_pago',]
+    template_name = "tarjeta_new.html"
+    success_url = "/tarjetas"
+
+class TarjetaUpdate(LoginRequiredMixin, UpdateView):
+    model = Tarjeta
+    fields = ['fecha_operacion',
+    'tipo_tarjeta',
+    'importe',
+    'lote',
+    'fecha_pago',]
+    template_name_suffix = '_update_form'
+    success_url = "/tarjetas"
+
+class TarjetaDelete(LoginRequiredMixin, DeleteView):
+    model = Tarjeta
+    success_url = "/tarjetas"

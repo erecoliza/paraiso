@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+<div id="Inferior">
+  {% load staticfiles %}
+  {% block content%}
+  <div class="container">
+      <h3 align =center>Listado de Movimientos con Tarjetas</h3>
+          <a href="/tarjeta_add">
+              <img src="{% static 'peluqueria/images/agregar_tarjeta.jpeg' %}" alt="Peluqueria" style="float:left;width:50px;height:50px;">
+          </a>
+          <table border="1px" align =center>
+          <tr>
+            <th scope="col">Fecha operación</th>
+            <th scope="col">Tarjeta</th>
+            <th scope="col">Importe</th>
+            <th scope="col">Lote</th>
+            <th scope="col">Fecha de Pago</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+          {% for tarjeta in object_list %}
+          <tr>
+            <td><a href="/tarjeta/{{ tarjeta.pk }}/">{{ tarjeta.fecha_operacion }}</a></td>
+            <td><a href="/tarjeta/{{ tarjeta.pk }}/">{{ tarjeta.tipo_tarjeta }}</a></td>
+            <td> {{ tarjeta.importe }} </td>
+            <td> {{ tarjeta.lote }} </td>
+            <td> {{ tarjeta.fecha_pago }} </td>
+            <td><a href="/tarjeta/{{ tarjeta.pk }}/delete/">
+              <img src="{% static 'peluqueria/images/eliminar.jpeg' %}" alt="Peluqueria" style="float:left;width:50px;height:50px;">
+              </a>
+              </td>
+          </tr>
+          {% endfor %}
+      </table>
+      {% if is_paginated %}
+          {% include "paginator.html" %}
+      {% endif %}
+  </div>
+
+  {% endblock %}

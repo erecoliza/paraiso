@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+<div id="Inferior">
+    {% block content %}
+        <form action="" method="post">{% csrf_token %}
+          <p align=center>
+            {{ form.as_p }}
+        <input type="submit" value="Actualizar" />
+          </p>
+        </form>
+    {% endblock %}
+</div>

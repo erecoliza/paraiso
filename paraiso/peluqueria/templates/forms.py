@@ -1,6 +1,6 @@
 from django import forms
 
-from peluqueria.models import (Cliente, TipoTarjeta, Tarjeta)
+from peluqueria.models import (Cliente, TipoTarjeta)
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -17,12 +17,3 @@ class TipoTarjetaForm(forms.ModelForm):
     class Meta:
         model = TipoTarjeta
         fields = ('tipo_tarjeta',)
-
-class TarjetaForm(forms.ModelForm):
-    class Meta:
-        model = Tarjeta
-        fields = ('fecha_operacion',
-        'tipo_tarjeta',
-        'importe',
-        'lote',
-        'fecha_pago',)
