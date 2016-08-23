@@ -13,6 +13,9 @@ from django import forms
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
+from django.contrib.admin import widgets
+from django.contrib.admin.widgets import AdminDateWidget
+
 
 from .forms import PostForm, TipoTarjetaForm, TarjetaForm
 
@@ -128,13 +131,15 @@ class TipoTarjeta_list(LoginRequiredMixin, ListView):
 
 class TipoTarjetaCreate(LoginRequiredMixin,CreateView):
     model = TipoTarjeta
-    fields = ['tipo_tarjeta',]
+    # El diseño del form se traen del form_class de Forms.py
+    form_class = TipoTarjetaForm
     template_name = "tipotarjeta_new.html"
     success_url = "/tipotarjeta"
 
 class TipoTarjetaUpdate(LoginRequiredMixin, UpdateView):
     model = TipoTarjeta
-    fields = ['tipo_tarjeta',]
+    # El diseño del form se traen del form_class de Forms.py
+    form_class = TipoTarjetaForm
     template_name_suffix = '_update_form'
     success_url = "/tipotarjeta"
 
@@ -155,21 +160,22 @@ class Tarjeta_list(LoginRequiredMixin, ListView):
 
 class TarjetaCreate(LoginRequiredMixin,CreateView):
     model = Tarjeta
+    """
+    El diseño del form se traen del form_class de Forms.py
+    No obstante puedo utilizar los campos que designo con fields
+    """
     fields = ['fecha_operacion',
     'tipo_tarjeta',
     'importe',
-    'lote',
-    'fecha_pago',]
+    'lote',]
+    widgets = {'fecha_operacion' : AdminDateWidget}
     template_name = "tarjeta_new.html"
     success_url = "/tarjetas"
 
 class TarjetaUpdate(LoginRequiredMixin, UpdateView):
     model = Tarjeta
-    fields = ['fecha_operacion',
-    'tipo_tarjeta',
-    'importe',
-    'lote',
-    'fecha_pago',]
+    # El diseño del form se traen del form_class de Forms.py
+    form_class = TarjetaForm
     template_name_suffix = '_update_form'
     success_url = "/tarjetas"
 
