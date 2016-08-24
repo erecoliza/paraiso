@@ -67,7 +67,8 @@ class ClienteUpdate(LoginRequiredMixin, UpdateView):
     'Cumpleaños',
     'email',
     'Teléfono',
-    'Tratamiento',]
+    'Tratamiento',
+    'fecha',]
     template_name_suffix = '_update_form'
     success_url = "/clientes"
 
