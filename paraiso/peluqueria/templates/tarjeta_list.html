@@ -19,9 +19,9 @@
           {% for tarjeta in object_list %}
           <tr>
             <td><a href="/tarjeta/{{ tarjeta.pk }}/">{{ tarjeta.fecha_operacion }}</a></td>
-            <td><a href="/tarjeta/{{ tarjeta.pk }}/">{{ tarjeta.tipo_tarjeta }}</a></td>
-            <td> {{ tarjeta.importe }} </td>
-            <td> {{ tarjeta.lote }} </td>
+            <td align="center" ><a href="/tarjeta/{{ tarjeta.pk }}/">{{ tarjeta.tipo_tarjeta }}</a></td>
+            <td align="right" > {{ tarjeta.importe }} </td>
+            <td align="center" > {{ tarjeta.lote }} </td>
             <td> {{ tarjeta.fecha_pago }} </td>
             <td><a href="/tarjeta/{{ tarjeta.pk }}/delete/">
               <img src="{% static 'peluqueria/images/eliminar.jpeg' %}" alt="Peluqueria" style="float:left;width:50px;height:50px;">

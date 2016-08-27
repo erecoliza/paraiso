@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+<div id="Inferior">
+    {% block content %}
+    <form action="" method="post">{% csrf_token %}
+          ¿ Esta seguro que quiere eliminar <strong>"{{ object }}"</strong> ?
+          <input type="submit" value="Confirmar" />
+    </form>
+{% endblock %}
+</div>

@@ -3,22 +3,22 @@
   {% load staticfiles %}
   {% block content%}
   <div class="container">
-      <h3 align =center>Listado de Tipos de Tarjetas</h3>
-          <a href="/tipotarjeta_add">
-              <img src="{% static 'peluqueria/images/agregar_tarjeta.jpeg' %}" alt="Peluqueria" style="float:left;width:50px;height:50px;">
+      <h3 align =center>Tipos de Operaciones</h3>
+          <a href="/tipooperacion_add">
+              <img src="{% static 'peluqueria/images/operacion.jpeg' %}" alt="Peluqueria" style="float:left;width:50px;height:50px;">
           </a>
           <table border="1px" align =center>
           <tr>
-            <th scope="col">Tipo Tarjeta</th>
+            <th scope="col">Tipo Operación</th>
             <th scope="col">Eliminar</th>
           </tr>
-          {% for tipotarjeta in object_list %}
+          {% for tipooperacion in object_list %}
           <tr>
-            <td><a href="/tipotarjeta/{{ tipotarjeta.pk }}/">{{ tipotarjeta.tipo_tarjeta }}</a></td>
-            <td align="center"><a href="/tipotarjeta/{{ tipotarjeta.pk }}/delete/">
+            <td><a href="/tipooperacion/{{ tipooperacion.pk }}/">{{ tipooperacion.tipo_operacion }}</a></td>
+            <td align="center"><a href="/tipooperacion/{{ tipooperacion.pk }}/delete/">
               <img src="{% static 'peluqueria/images/eliminar.jpeg' %}" alt="Peluqueria" style="float:left;width:50px;height:50px;">
               </a>
-              </td>
+            </td>
           </tr>
           {% endfor %}
       </table>

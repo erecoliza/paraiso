@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+<div id="Inferior">
+  {% load staticfiles %}
+  {% block content%}
+  <div class="container">
+      <h3 align =center>Movimientos de Caja</h3>
+          <a href="/caja_add">
+              <img src="{% static 'peluqueria/images/caja.jpeg' %}" alt="Peluqueria" style="float:left;width:70px;height:70px;">
+          </a>
+          <table border="1px" align =center>
+          <tr>
+            <th scope="col">Fecha de Caja</th>
+            <th scope="col">Operación</th>
+            <th scope="col">Importe</th>
+            <th scope="col">Concepto</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+          {% for caja in object_list %}
+          <tr>
+            <td><a href="/caja/{{ caja.pk }}/">{{ caja.fecha_operacion }}</a></td>
+            <td align="center"><a href="/caja/{{ caja.pk }}/">{{ caja.tipo_operacion }}</a></td>
+            <td align="right"> {{ caja.importe }} </td>
+            <td> {{ caja.concepto }} </td>
+            <td><a href="/caja/{{ caja.pk }}/delete/">
+              <img src="{% static 'peluqueria/images/eliminar.jpeg' %}" alt="Peluqueria" style="float:left;width:50px;height:50px;">
+              </a>
+              </td>
+          </tr>
+          {% endfor %}
+      </table>
+      {% if is_paginated %}
+          {% include "paginator.html" %}
+      {% endif %}
+  </div>
+
+  {% endblock %}

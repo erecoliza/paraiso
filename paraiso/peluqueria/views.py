@@ -17,18 +17,46 @@ from django.contrib.admin import widgets
 from django.contrib.admin.widgets import AdminDateWidget
 
 
-from .forms import PostForm, TipoTarjetaForm, TarjetaForm
+from .forms import PostForm, TipoTarjetaForm, TarjetaForm, TipoOperacionForm, CajaForm
 
 import datetime
 from datetime import date
 
-from peluqueria.models import (Cliente, Tarjeta, TipoTarjeta)
+from peluqueria.models import (Cliente, Tarjeta, TipoTarjeta, Caja, TipoOperacion)
 
 class Index(TemplateView):
     template_name = 'inicio.html'
 
 class Menu(LoginRequiredMixin, TemplateView):
     template_name = "menu.html"
+
+class Caja_list(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        request = self.request
+        q = request.GET.get('q')
+        if q:
+           return Caja.objects.filter(tipo_operacion__icontains=q).order_by('tipo_operacion')
+        return Caja.objects.all().order_by('-fecha_operacion')
+    template_name = 'caja_list.html'
+    context_object_name = 'caja_list'
+    paginate_by = 10
+
+class CajaCreate(LoginRequiredMixin,CreateView):
+    model = Caja
+    form_class = CajaForm
+    template_name = "caja_new.html"
+    success_url = "/caja"
+
+class CajaUpdate(LoginRequiredMixin, UpdateView):
+    model = Caja
+    # El diseño del form se traen del form_class de Forms.py
+    form_class = CajaForm
+    template_name_suffix = '_update_form'
+    success_url = "/caja"
+
+class CajaDelete(LoginRequiredMixin, DeleteView):
+    model = Caja
+    success_url = "/caja"
 
 class Cliente_buscar(LoginRequiredMixin, View):
     def get(self, request):
@@ -118,6 +146,35 @@ def ImportData(request):
 
 class Mapa(LoginRequiredMixin, TemplateView):
     template_name = "mapa.html"
+
+class TipoOperacion_list(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        request = self.request
+        q = request.GET.get('q')
+        if q:
+           return TipoOperacion.objects.filter(tipo_operacion__icontains=q).order_by('tipo_operacion')
+        return TipoOperacion.objects.all().order_by('tipo_operacion')
+    template_name = 'tipooperacion_list.html'
+    context_object_name = 'tipooperacion_list'
+    paginate_by = 10
+
+class TipoOperacionCreate(LoginRequiredMixin,CreateView):
+    model = TipoOperacion
+    # El diseño del form se traen del form_class de Forms.py
+    form_class = TipoOperacionForm
+    template_name = "tipooperacion_new.html"
+    success_url = "/tipooperacion"
+
+class TipoOperacionUpdate(LoginRequiredMixin, UpdateView):
+    model = TipoOperacion
+    # El diseño del form se traen del form_class de Forms.py
+    form_class = TipoOperacionForm
+    template_name_suffix = '_update_form'
+    success_url = "/tipooperacion"
+
+class TipoOperacionDelete(LoginRequiredMixin, DeleteView):
+    model = TipoOperacion
+    success_url = "/tipooperacion"
 
 class TipoTarjeta_list(LoginRequiredMixin, ListView):
     def get_queryset(self):
