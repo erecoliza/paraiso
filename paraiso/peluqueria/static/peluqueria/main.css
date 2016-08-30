@@ -101,3 +101,23 @@ li.dropdown {
 
 .show {display:block;}
 /* FIN Menu */
+
+table#t02 tr:nth-child(even) {
+    background-color: #eee;
+}
+
+table#t02 tr:nth-child(odd) {
+   background-color:#fff;
+}
+table#t01 th {
+    background-color: black;
+    color: white;
+}
+
+tbody tr:hover{
+  background:yellow;
+}
+
+td[negative^='900,00']:after {color: red;}
+
+td.negative { color : red; }

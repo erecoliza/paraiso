@@ -65,4 +65,4 @@ class Caja(models.Model):
         return '%s, %s, %s, %s' % (self.fecha_operacion, self.tipo_operacion, self.importe, self.concepto)
 
     class meta:
-        ordering = ['tipo_tarjeta', 'fecha_operacion']
+        ordering = ['-fecha_operacion', 'tipo_operacion']

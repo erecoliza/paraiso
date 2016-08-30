@@ -36,7 +36,7 @@ class Caja_list(LoginRequiredMixin, ListView):
         q = request.GET.get('q')
         if q:
            return Caja.objects.filter(tipo_operacion__icontains=q).order_by('tipo_operacion')
-        return Caja.objects.all().order_by('-fecha_operacion')
+        return Caja.objects.all().order_by('-fecha_operacion', 'tipo_operacion')
     template_name = 'caja_list.html'
     context_object_name = 'caja_list'
     paginate_by = 10
