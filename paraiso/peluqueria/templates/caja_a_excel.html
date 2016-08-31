@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+<div id="Inferior">
+
+     {% load staticfiles %}
+     <script src="{% static 'peluqueria/app.js' %}"></script>
+
+     {% block content %}
+          <h1>Exportar Movimientos de CAJA a Excel</h1>
+          <body>
+          <form method="get" action=".">
+
+          <input type="radio" name="caja" value "xdia" onclick="mostrardia();">del DIA
+          <input type="radio" name="caja" value "xmes" onclick="mostrarmes();">del MES
+          <input type="radio" name="caja" value "xanio" onclick="mostraranio();">del AÑO
+          <br><br>
+
+          <div id="divDia" style="display: none;">
+              Caja del Día: <input type="date" name="dia" id="dia"><br><br>
+          </div>
+          <div id="divMes" style="display: none;" >
+            Caja del Mes: <select name="mes" >
+            <option value=1>Enero</option>
+            <option value=2>Febrero</option>
+            <option value=3>Marzo</option>
+            <option value=4>Abril</option>
+            <option value=5>Mayo</option>
+            <option value=6>Junio</option>
+            <option value=7>Julio</option>
+            <option value=8>Agosto</option>
+            <option value=9>Septiembre</option>
+            <option value=10>Octubre</option>
+            <option value=11>Noviembre</option>
+            <option value=12>Diciembre</option>
+          </select>
+             Año:<input type="text" name="aniomes" id="aniomes" maxlength="4"><br><br>
+          </div>
+          <div id="divAnio" style="display: none;" >
+             Caja del Año:<input type="text" name="anio" id="anio" maxlength="4"><br><br>
+          </div>
+          {{ form.as_p }}
+          <button type="submit" class="save btn btn-default">Exportar</button>
+        </form>
+        </body>
+        <script src="{% static 'peluqueria/app.js' %}"></script>
+
+    {% endblock %}
+</div>

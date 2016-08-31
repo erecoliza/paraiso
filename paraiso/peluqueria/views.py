@@ -58,6 +58,18 @@ class CajaDelete(LoginRequiredMixin, DeleteView):
     model = Caja
     success_url = "/caja"
 
+@login_required
+def CajaAExcel(request):
+    if 'dia' in request.GET and request.GET['dia']:
+        q = request.GET['dia']
+        caja_dia = Cliente.objects.all().filter(Cumpleaños__day=q)
+        exportar = ArmoExcel(caja_dia)
+        response = HttpResponse(exportar, content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = 'filename = "caja_mes.xlsx"'
+        return response
+    else:
+        return render_to_response('caja_a_excel.html')
+
 class Cliente_buscar(LoginRequiredMixin, View):
     def get(self, request):
         if 'q' in request.GET and request.GET['q']:

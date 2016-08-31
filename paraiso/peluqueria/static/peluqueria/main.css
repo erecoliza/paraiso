@@ -115,9 +115,7 @@ table#t01 th {
 }
 
 tbody tr:hover{
-  background:yellow;
+  background:aquamarine;
 }
-
-td[negative^='900,00']:after {color: red;}
 
 td.negative { color : red; }
