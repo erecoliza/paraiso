@@ -1,4 +1,4 @@
-<!-- Script caja_a_excel
+<!-- Scripts caja_a_excel
 -->
 
 function mostrardia() {
@@ -14,11 +14,13 @@ function mostrardia() {
   }
   hoy = dd+'/'+mm+'/'+yyyy;
   document.getElementById('dia').value = hoy;
+  document.getElementById('caja').value = 'xdia';
   document.getElementById('divDia').style.display = '';
   document.getElementById('divMes').style.display = 'none';
   document.getElementById('divAnio').style.display = 'none';
 }
 function mostrarmes() {
+  document.getElementById('caja').value = 'xmes';
   var d = new Date();
   document.getElementById('aniomes').value = d.getFullYear();
   document.getElementById('divDia').style.display = 'none';
@@ -26,6 +28,7 @@ function mostrarmes() {
   document.getElementById('divAnio').style.display = 'none';
 }
 function mostraranio() {
+  document.getElementById('caja').value = 'xanio';
   var d = new Date();
   document.getElementById('anio').value = d.getFullYear();
   document.getElementById('divDia').style.display = 'none';

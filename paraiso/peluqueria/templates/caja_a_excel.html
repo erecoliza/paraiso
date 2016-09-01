@@ -9,13 +9,13 @@
           <body>
           <form method="get" action=".">
 
-          <input type="radio" name="caja" value "xdia" onclick="mostrardia();">del DIA
-          <input type="radio" name="caja" value "xmes" onclick="mostrarmes();">del MES
-          <input type="radio" name="caja" value "xanio" onclick="mostraranio();">del AÑO
+          <input type="radio" name="caja" onclick="mostrardia();">del DIA
+          <input type="radio" name="caja" onclick="mostrarmes();">del MES
+          <input type="radio" name="caja" onclick="mostraranio();">del AÑO
           <br><br>
-
+          <input type = "hidden" name = "seleccion" id="caja">
           <div id="divDia" style="display: none;">
-              Caja del Día: <input type="date" name="dia" id="dia"><br><br>
+              Caja del Día (dd/mm/aaaa): <input type="text" name="dia" id="dia"><br><br>
           </div>
           <div id="divMes" style="display: none;" >
             Caja del Mes: <select name="mes" >

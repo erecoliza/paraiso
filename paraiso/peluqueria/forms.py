@@ -6,10 +6,9 @@ from peluqueria.models import (Cliente, TipoTarjeta, Tarjeta, Caja, TipoOperacio
 class CajaForm(forms.ModelForm):
     class Meta:
         model = Caja
-        # todos los campos del modelo Tarjeta
         fields = '__all__'
 
-class PostForm(forms.ModelForm):
+class ClienteForm(forms.ModelForm):
     class Meta:
         model = Cliente
         # todos los campos del modelo Cliente

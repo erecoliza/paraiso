@@ -8,16 +8,13 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from .utils import ArmoExcel, ImportarExcel
+from .utils import ArmoExcelCaja, ArmoExcelCumple, ImportarExcel, Fecha_a_anio_mes_dia
 from django import forms
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
-from django.contrib.admin import widgets
-from django.contrib.admin.widgets import AdminDateWidget
 
-
-from .forms import PostForm, TipoTarjetaForm, TarjetaForm, TipoOperacionForm, CajaForm
+from .forms import ClienteForm, TipoTarjetaForm, TarjetaForm, TipoOperacionForm, CajaForm
 
 import datetime
 from datetime import date
@@ -60,15 +57,38 @@ class CajaDelete(LoginRequiredMixin, DeleteView):
 
 @login_required
 def CajaAExcel(request):
-    if 'dia' in request.GET and request.GET['dia']:
-        q = request.GET['dia']
-        caja_dia = Cliente.objects.all().filter(Cumpleaños__day=q)
-        exportar = ArmoExcel(caja_dia)
+    if 'seleccion' in request.GET and request.GET['seleccion']:
+        seleccion = request.GET['seleccion']
+        if 'xdia' in seleccion:
+            # por Dia
+            if 'dia' in request.GET and request.GET['dia']:
+                rdia = request.GET['dia']
+                fdia = Fecha_a_anio_mes_dia(rdia)
+                caja_dia = Caja.objects.all().filter(fecha_operacion=fdia)
+            else:
+                return render_to_response('caja_a_excel.html')
+        elif 'xmes' in seleccion:
+            # Por mes
+            if 'mes' in request.GET and request.GET['mes'] and 'aniomes' in request.GET and request.GET['aniomes']:
+                fmes = request.GET['mes']
+                faniomes = request.GET['aniomes']
+                caja_dia = Caja.objects.all().filter(fecha_operacion__month=fmes, fecha_operacion__year=faniomes)
+            else:
+                return render_to_response('caja_a_excel.html')
+        elif 'xanio' in seleccion:
+            # Por Año
+            if 'anio' in request.GET and request.GET['anio']:
+                fanio = request.GET['anio']
+                caja_dia = Caja.objects.all().filter(fecha_operacion__year=fanio)
+            else:
+                return render_to_response('caja_a_excel.html')
+        exportar = ArmoExcelCaja(caja_dia)
         response = HttpResponse(exportar, content_type='application/vnd.ms-excel')
-        response['Content-Disposition'] = 'filename = "caja_mes.xlsx"'
+        response['Content-Disposition'] = 'filename = "mov_caja.xlsx"'
         return response
     else:
         return render_to_response('caja_a_excel.html')
+
 
 class Cliente_buscar(LoginRequiredMixin, View):
     def get(self, request):
@@ -91,24 +111,24 @@ class Cliente_list(LoginRequiredMixin, ListView):
 
 class ClienteCreate(LoginRequiredMixin,CreateView):
     model = Cliente
-    fields = ['Apellido',
-    'Nombre',
-    'Cumpleaños',
-    'email',
-    'Teléfono',
-    'Tratamiento',]
-    template_name = "cliente_new.html"
-    success_url = "/clientes"
-
-class ClienteUpdate(LoginRequiredMixin, UpdateView):
-    model = Cliente
+    #form_class = ClienteForm
+    """
+    El diseño del form se traen del form_class de Forms.py
+    No obstante puedo utilizar los campos que designo con fields
+    """
     fields = ['Apellido',
     'Nombre',
     'Cumpleaños',
     'email',
     'Teléfono',
     'Tratamiento',
-    'fecha',]
+    ]
+    template_name = "cliente_new.html"
+    success_url = "/clientes"
+
+class ClienteUpdate(LoginRequiredMixin, UpdateView):
+    model = Cliente
+    form_class = ClienteForm
     template_name_suffix = '_update_form'
     success_url = "/clientes"
 
@@ -129,7 +149,7 @@ def CumpleAExcel(request):
     if 'mes' in request.GET and request.GET['mes']:
         q = request.GET['mes']
         cumple_mes = Cliente.objects.all().filter(Cumpleaños__month=q)
-        exportar = ArmoExcel(cumple_mes)
+        exportar = ArmoExcelCumple(cumple_mes)
         response = HttpResponse(exportar, content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'filename = "cumple_mes.xlsx"'
         return response
@@ -238,7 +258,7 @@ class TarjetaCreate(LoginRequiredMixin,CreateView):
     'tipo_tarjeta',
     'importe',
     'lote',]
-    widgets = {'fecha_operacion' : AdminDateWidget}
+
     template_name = "tarjeta_new.html"
     success_url = "/tarjetas"
 
