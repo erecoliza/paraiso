@@ -1,5 +1,7 @@
 import openpyxl
 from openpyxl.styles import Font
+from openpyxl.styles import colors
+from openpyxl.styles import Color
 from openpyxl import Workbook, load_workbook
 from openpyxl.writer.excel import save_virtual_workbook
 
@@ -60,9 +62,9 @@ def ArmoExcelCaja(caja_dia):
     sheet['D1'].font= font_title
 
     sheet.column_dimensions['A'].width = 20
-    sheet.column_dimensions['B'].width = 20
+    sheet.column_dimensions['B'].width = 10
     sheet.column_dimensions['C'].width = 20
-    sheet.column_dimensions['D'].width = 20
+    sheet.column_dimensions['D'].width = 40
 
     sheet.freeze_panes = 'A2'
     i = 1
@@ -71,7 +73,15 @@ def ArmoExcelCaja(caja_dia):
          sheet['A'+ str(i)].value = caja.fecha_operacion.strftime("%d/%m/%Y")
          sheet['B'+ str(i)].value = caja.tipo_operacion.tipo_operacion
          sheet['C'+ str(i)].value = caja.importe if caja.tipo_operacion.tipo_operacion=='Ingreso' else -caja.importe
+         sheet['C'+ str(i)].number_format = '"$"#,##0.00_);[Red]("$"#,##0.00)'
+
          sheet['D'+ str(i)].value = caja.concepto
+    sheet['B'+ str(i+1)].value = "TOTAL"
+    sheet['C'+ str(i+1)] = "=SUM(C2:C"+ str(i)+")"
+    sheet['C'+ str(i+1)].number_format = '"$"#,##0.00_);[Red]("$"#,##0.00)'
+
+
+    sheet.auto_filter.ref = "A1:B"+ str(i)
     return save_virtual_workbook(wb)
 
 def ImportarExcel(archivo):
