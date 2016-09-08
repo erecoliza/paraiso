@@ -32,7 +32,7 @@ class Caja_list(LoginRequiredMixin, ListView):
         request = self.request
         q = request.GET.get('q')
         if q:
-           return Caja.objects.filter(tipo_operacion__icontains=q).order_by('tipo_operacion')
+           return Caja.objects.filter(tipo_operacion__icontains=q).order_by('-fecha_operacion').order_by('tipo_operacion')
         return Caja.objects.all().order_by('-fecha_operacion', 'tipo_operacion')
     template_name = 'caja_list.html'
     context_object_name = 'caja_list'
@@ -72,14 +72,14 @@ def CajaAExcel(request):
             if 'mes' in request.GET and request.GET['mes'] and 'aniomes' in request.GET and request.GET['aniomes']:
                 fmes = request.GET['mes']
                 faniomes = request.GET['aniomes']
-                caja_dia = Caja.objects.all().filter(fecha_operacion__month=fmes, fecha_operacion__year=faniomes)
+                caja_dia = Caja.objects.all().filter(fecha_operacion__month=fmes, fecha_operacion__year=faniomes).order_by('fecha_operacion')
             else:
                 return render_to_response('caja_a_excel.html')
         elif 'xanio' in seleccion:
             # Por Año
             if 'anio' in request.GET and request.GET['anio']:
                 fanio = request.GET['anio']
-                caja_dia = Caja.objects.all().filter(fecha_operacion__year=fanio)
+                caja_dia = Caja.objects.all().filter(fecha_operacion__year=fanio).order_by('fecha_operacion')
             else:
                 return render_to_response('caja_a_excel.html')
         exportar = ArmoExcelCaja(caja_dia)
@@ -88,7 +88,6 @@ def CajaAExcel(request):
         return response
     else:
         return render_to_response('caja_a_excel.html')
-
 
 class Cliente_buscar(LoginRequiredMixin, View):
     def get(self, request):
@@ -148,7 +147,7 @@ class Cumple(LoginRequiredMixin,ListView):
 def CumpleAExcel(request):
     if 'mes' in request.GET and request.GET['mes']:
         q = request.GET['mes']
-        cumple_mes = Cliente.objects.all().filter(Cumpleaños__month=q)
+        cumple_mes = Cliente.objects.all().filter(Cumpleaños__month=q).extra(select={'cumpleañosday': 'day(Cumpleaños)'},order_by=['cumpleañosday'])
         exportar = ArmoExcelCumple(cumple_mes)
         response = HttpResponse(exportar, content_type='application/vnd.ms-excel')
         response['Content-Disposition'] = 'filename = "cumple_mes.xlsx"'
