@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+<div id="Inferior">
+
+{% block content %}
+    <div align="center" class="container">
+    <h1>Enviar Correo electrónico de Cumpleaños</h1>
+      <form method="get" action ='.' >
+      <body>
+      {{ form.as_p }}
+      Cumpleaños del Día (dd/mm/aaaa): <input type="text" name="dia" id="dia" autofocus><br><br>
+      <button type="submit" class="save btn btn-default">Buscar</button>
+      </body>
+      <script type="text/javascript">
+      var today = new Date();
+      var dd = today.getDate();
+      var mm = today.getMonth()+1; //Enero is 0!
+      var yyyy = today.getFullYear();
+      if(dd<10) {
+         dd='0'+dd
+      }
+      if(mm<10) {
+         mm='0'+mm
+      }
+      hoy = dd+'/'+mm+'/'+yyyy;
+      document.getElementById('dia').value = hoy;
+      </script>
+      </form>
+  </div>
+{% endblock %}
+</div>

@@ -9,6 +9,7 @@ from django.db.models import Q
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from .utils import ArmoExcelCaja, ArmoExcelCumple, ImportarExcel, Fecha_a_anio_mes_dia
+from .send_email_via_gmail import mail
 from django import forms
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
@@ -18,6 +19,8 @@ from .forms import ClienteForm, TipoTarjetaForm, TarjetaForm, TipoOperacionForm,
 
 import datetime
 from datetime import date
+from datetime import datetime
+
 
 from peluqueria.models import (Cliente, Tarjeta, TipoTarjeta, Caja, TipoOperacion)
 
@@ -154,6 +157,44 @@ def CumpleAExcel(request):
         return response
     else:
         return render_to_response('cumple_a_excel.html')
+
+class Enviar_email(LoginRequiredMixin, View):
+    def get(self, request):
+        if 'dia' in request.GET and request.GET['dia']:
+            rdia = request.GET['dia']
+            ddia = datetime.strptime(rdia, "%d/%m/%Y")
+            mescumple = ddia.month
+            diacumple = ddia.day
+            fdia = Fecha_a_anio_mes_dia(rdia)
+            cumple_dia = Cliente.objects.all().filter(Cumpleaños__month=mescumple, Cumpleaños__day=diacumple)
+            for cliente in cumple_dia:
+                fechaemail = rdia
+                asuntoemail = "¡¡¡ Muy Feliz cumpleaños !!!"
+                nombrecliente = cliente.Nombre
+                #emailcliente = "eduardo.recoliza@gmail.com"
+                emailcliente = cliente.email
+                #imagenemail = "paraiso/paraiso/peluqueria/static/peluqueria/images/Paraiso01.jpg"
+                imagenemail = "peluqueria/static/peluqueria/images/Paraiso01.jpg"
+                textoaenviar = """
+Lucila del Mar, %s
+
+Estimada/o %s, estamos muy alegres de compartir este momento.
+Esperamos sinceramente que pase un día especial y lleno de agradables sorpresas, regalos y cariño, que pueda disfrutar de la compañía amable de las personas que lo aman, aprecian y comparten su amistad.
+
+Muy feliz cumpleaños !!!
+
+Atte.
+
+Peluqueria Paraíso de Amor""" % (fechaemail, nombrecliente)
+                if emailcliente:
+                    mail(emailcliente,
+                        asuntoemail,
+                        textoaenviar,
+                        imagenemail
+                        )
+                return render_to_response('menu.html')
+            return render_to_response('menu.html')    
+        return render_to_response('enviar_email.html')
 
 class UploadFileForm(forms.Form):
     file = forms.FileField()
